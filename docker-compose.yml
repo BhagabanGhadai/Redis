@@ -1,0 +1,24 @@
+version: '3.9'
+services:
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - 6379:6379
+    restart: always
+    volumes:
+      - redis_volume_data:/data
+  redis-insight:
+    image: redislabs/redisinsight
+    container_name: redis-insight
+    ports:
+      - 5540:5540
+    restart: always
+    volumes:
+      - redis_insight_volume_data:/db
+    depends_on:
+      - redis
+
+volumes:
+  redis_volume_data:
+  redis_insight_volume_data:
