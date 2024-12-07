@@ -10,8 +10,8 @@ const rateLimiterMiddleware = (options) => {
     const refillRate = max / (windowMs / 1000); // Tokens per second
   
     return async (req, res, next) => {
-      const ip = req.ip;
-  
+      const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
       const allowed = await leakBucket(ip, max, refillRate, client);
   
       if (standardHeaders) {
